@@ -50,13 +50,13 @@ export const login = async (req, res) => {
     }
 
     generateToken(user._id, res);
-
-    res.status(201).json({
-      _id: newUser._id,
-      fullName: newUser.fullName,
-      email: newUser.email,
+    res.status(200).json({
+      _id: user._id,
+      fullName: user.fullName,
+      email: user.email,
+      profilePic: user.profilePic,
     });
-  } catch (err) {
+  } catch (error) {
     console.error("Error while signup", error.message);
     res.status(500).json({ message: "Internal server error while login" });
   }
@@ -67,7 +67,7 @@ export const logout = (req, res) => {
     res.cookie("jwt", "", { maxAge: 0 });
     res.status(200).json({ message: "logout successful" });
   } catch (error) {
-    console.log("error in logout controller", error.message);
+    console.error("error in logout controller", error.message);
     res.status(500).json({ message: "internal error" });
   }
 };
@@ -87,6 +87,7 @@ export const updateProfile = async (req, res) => {
       },
       { new: true }
     );
+    res.status(200).json(updatedUser);
   } catch (error) {
     console.log("error in logout controller", error.message);
     res.status(500).json({ message: "internal error" });
