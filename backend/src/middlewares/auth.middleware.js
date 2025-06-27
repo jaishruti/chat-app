@@ -3,9 +3,9 @@ import User from "../models/user.js";
 
 export const protectRoute = async (req, res, next) => {
   try {
-    const token = req.cookie.jwt;
+    const token = req.cookie?.jwt;
     if (!token) {
-      return res.status(400).json({ message: "unauthorized - no token found" });
+      return res.status(401).json({ message: "unauthorized - no token found" });
     }
     const decoded = jwt.verify(token, process.env.JWT_SECRET);
 
